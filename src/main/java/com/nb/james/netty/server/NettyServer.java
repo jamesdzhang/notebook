@@ -2,6 +2,7 @@ package com.nb.james.netty.server;
 
 import com.nb.james.netty.server.handler.DiscardServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -39,7 +40,7 @@ public class NettyServer implements Runnable{
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true).attr(AttributeKey.newInstance("msg"), new AtomicReference("hi")); // (6)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true).attr(AttributeKey.newInstance("msg"), Unpooled.copiedBuffer("hi".getBytes())); // (6)
             // Bind and start to accept incoming connections.
             ChannelFuture f = b.bind(port).sync(); // (7)
             // Wait until the server socket is closed.

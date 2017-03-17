@@ -9,6 +9,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
 
+import java.nio.charset.Charset;
+
 /**
  * Handles a server-side channel.
  */
@@ -28,6 +30,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter { // (1)
                 System.out.print((char) in.readByte());
                 System.out.flush();
             }
+            System.out.println("from "+ctx.name());
         } finally {
             ReferenceCountUtil.release(msg); // (2)
         }
@@ -45,6 +48,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter { // (1)
     public void channelActive(final ChannelHandlerContext ctx) { // (1)
         final ByteBuf time = ctx.alloc().buffer(4); // (2)
         time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+        time.writeCharSequence(ctx.name(), Charset.forName("UTF-8"));
 
         final ChannelFuture f = ctx.writeAndFlush(time); // (3)
         f.addListener(new ChannelFutureListener() {
