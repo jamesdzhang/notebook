@@ -43,10 +43,47 @@ public class QuickSort {
         return left;
     }
 
+
+    /**
+     * 数组实现
+     * @param unsorted
+     */
+    public static void quick_sort(Integer[] unsorted, int low, int high){
+        int loc = 0;
+        if (low < high){
+            loc = partition(unsorted, low, high);
+            quick_sort(unsorted, low, loc - 1);
+            quick_sort(unsorted, loc + 1, high);
+        }
+
+    }
+
+    public static Integer partition(Integer[] unsorted, int low, int high){
+        int pivot = unsorted[low];
+        while (low < high)
+        {
+            while (low < high && unsorted[high] > pivot) high--;
+            unsorted[low] = unsorted[high];
+            while (low < high && unsorted[low] <= pivot) low++;
+            unsorted[high] = unsorted[low];
+        }
+        unsorted[low] = pivot;
+        return low;
+    }
+
     public static void main(String args[]){
-        Integer[] a = {1,1,31,2,32,45,30,11,22,23};
+        long startTime;
+        Integer[] a = {1,111,31,2,32,45,30,11,22,23,223,22,11,7,5};
+        Integer[] aa = {1,111,31,2,32,45,30,11,22,23,223,22,11,7,5};
         List<Integer> list = Arrays.asList(a);
+        startTime = System.currentTimeMillis();
         System.out.println(Arrays.toString(QuickSort.quickSort(list).toArray()));
+        System.out.println(System.currentTimeMillis()-startTime);
+
+        startTime = System.currentTimeMillis();
+        quick_sort(aa,0,aa.length-1);
+        System.out.println(Arrays.toString(Arrays.asList(aa).toArray()));
+        System.out.println(System.currentTimeMillis()-startTime);
     }
 
 }
