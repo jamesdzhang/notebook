@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@SpringBootTest(classes=com.nb.james.springboot.main.SpringBootMain.class)
+@SpringBootTest(classes=com.nb.james.springboot.service.impl.ServiceImpl.class)
 public class HelloControllerIT {
 
     private int port;
@@ -44,6 +44,6 @@ public class HelloControllerIT {
                 String.class);
         assertThat(response.getBody(), equalTo("Greetings from Spring Boot!"));*/
         String result = service.hello();
-        assertThat(result, equalTo("hi"));
+        assertThat(result, equalTo("\nWow\n"));
     }
 }
