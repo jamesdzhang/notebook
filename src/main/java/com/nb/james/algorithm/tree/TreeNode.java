@@ -22,7 +22,7 @@ public class TreeNode {
     private static final String V_RIGHT = "right";
 
     public TreeNode(String nodeJson){
-//        GsonJsonParser parser = new GsonJsonParser();
+        GsonJsonParser parser = new GsonJsonParser();
         Map<String, Object> tMap = new WeakHashMap<>();
 //        tMap = parser.parseMap(nodeJson);
         try{
