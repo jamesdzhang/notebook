@@ -19,8 +19,8 @@ public class KMP {
                 i++;
                 j++;
             }else{
-//                i = i-j+1;
-//                j=0; //暴力回退到匹配字符的第一个位置
+                /*i = i-j+1;
+                j=0;*/ //暴力回退到匹配字符的第一个位置,非KMP算法实现
                 j = next[j];
             }
         }
@@ -32,28 +32,30 @@ public class KMP {
 
     /**
      * KMP核心
-     * 计算出来匹配字符每一个位置上如果匹配失败应该回退到的最优位置（原始方式是强制从第一位置重新匹配s）。
+     * 计算出来匹配字符每一个位置上如果匹配失败应该回退到的最优位置（原始方式是强制从第一位置重新匹配）。
+     * 例如 abab  匹配到第三个位置失败其实匹配位置无需重新匹配第一个位置，只要匹配第一个位置即可。
      * @param match
      * @return
      */
     private static int[] initNext(char[] match){
         int[] next = new int[match.length];
-        next[0] = -1;//第一个位置建议移动到-1的位置
-//        Set<Character> set = new HashSet<>();
-//        set.add(Character.valueOf(match[0]));
-        Map<Character,Integer> nextMap = new WeakHashMap<>(match.length);
-        nextMap.put(match[0],1);
-        for(int i=1; i<match.length;i++){
-            if(nextMap.containsKey(match[i])){
-                int charCount = nextMap.get(match[i]);
-                nextMap.put(match[i],charCount+1);
-                next[i] = charCount;
-            }else{
-                nextMap.put(match[i],1);
-                next[i] = 0;
+        int pLen = match.length;
+        next[0] = -1;
+        int k = -1;
+        int j = 0;
+        System.out.println("next[0]:"+-1);
+        while (j < pLen - 1) {
+            //p[k]表示前缀，p[j]表示后缀
+            if (k == -1 || match[j] == match[k]) {
+                ++k;
+                ++j;
+                next[j] = k;
+            } else {
+                k = next[k];
             }
-            System.out.println("next["+i+"] : "+next[i]);
         }
+
+        System.out.println("next数组："+Arrays.toString(next));
         return next;
     }
 
