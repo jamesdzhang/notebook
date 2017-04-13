@@ -1,0 +1,9 @@
+mysql使用sql查询表名的两种方法：
+
+1、show tables;
+
+2、SELECT TABLE_NAME,TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=’dbname’;–dbname为mysql的数据库名称
+
+查询指定数据库中指定表的所有字段名
+
+select column_name from information_schema.columns where table_schema=’YOURDATABASENAME’ and table_name=’YOURTABLENAME’
