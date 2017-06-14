@@ -13,7 +13,7 @@ public class ServiceImpl implements IService{
     @Override
     public String hello() {
         //start a netty server
-        new NettyServer(8000).run();
+//        new NettyServer(8000).run();
         return "\nWow\n".intern();
     }
 }

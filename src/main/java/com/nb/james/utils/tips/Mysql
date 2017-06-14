@@ -7,3 +7,7 @@ mysql使用sql查询表名的两种方法：
 查询指定数据库中指定表的所有字段名
 
 select column_name from information_schema.columns where table_schema=’YOURDATABASENAME’ and table_name=’YOURTABLENAME’
+
+
+按天分组统计
+http://www.cnblogs.com/xpyan/p/3640096.html

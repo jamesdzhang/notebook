@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+    http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
+    <!-- http://tsp.test.tuniu.org/PLA/TSG/index.html TSP注册监控地址 -->
+    
+	
+	<bean id="tsgConsumerConfig"
+		class="com.tuniu.car.util.TsgConsumerConfig" lazy-init="false">
+		<property name="consumerConfig" ref="consumerConfig" />
+		<property name="refferenceService" >
+			<list>
+			    <!-- 接送机打包反馈运营 -->
+                <value>VND.CC.ConfirmController.orderContact.feedback</value>
+                <!-- 接送机打包反馈占位信息-->
+                <value>VND.CC.ConfirmController.occupy.feedback</value>
+                <!-- 接送机打包反馈子订单信息-->
+                <value>VND.CC.ConfirmController.subOrder.feedback</value>
+                <!-- 接送机打包反馈确认信息-->
+                <value>VND.CC.ConfirmController.confirm.feedback</value>
+                <!-- 接送机打包核损反馈-->
+                <value>VND.CC.ConfirmController.assess.feedback</value>
+                <!-- 国际机票打包时，coc模拟调用确认接口实现自动确认-->
+                <value>CAR.COC.CarPackController.confirm</value>
+                <!-- 打包确认失败时，coc模拟调用打包核损接口-->
+                <value>CAR.COC.CarPackController.cancelAf</value>
+                <!-- pga 预接单页电话转接添加备注-->
+                <value>NWS.OrderController.addPreOrderRemark</value>
+                <!-- 国内机票打包：司导信息同步 -->
+                <value>ATS.EVP.ShuttleOrderController.noticeDriver</value>
+                <!-- 国内机票打包：占位、确认、核损反馈接口 -->
+                <value>ATS.EVP.ShuttleOrderController.feedback</value>
+                <!-- 查询PGA的订单详情接口 -->
+                <value>NWS.OrderController.queryOrderDetail</value>
+                <value>CAR.TCP.ProductDetailController.getItemInfo</value>
+                <value>CAR.PFM.OccupyController.accept</value>
+                <value>CAR.PFM.ConfirmController.accept</value>
+                <value>CAR.PFM.ConfirmController.accept</value>
+                <!--  AUC access control  -->
+                <value>AUS.RIGHT.UserRightController.getUserMenuTree</value>
+                <value>AUS.API.UserRightController.getUserParams</value>
+                <!-- 下单获取收银台URL -->
+                <value>FBS.NPC.OrderController.dealOrderSubmit</value>
+                <value>PMF.EXCUTE.CODE.provide</value>
+                <!--rtx服务-->
+                <value>PLA.RTX.RtxController.send</value>
+                <!--保险服务购买-->
+                <value>INS.OPENAPI.BUYINSURANCE</value>
+                <!--保险服务取消-->
+                <value>INS.OPENAPI.CANCELINSURANCE</value>
+                <!-- 直查PGA接口-->
+                <value>PGA.NWS.PipelineController.queryOrders</value>
+                <!-- 保险详情查询接口-->
+                <value>INS.Product.queryInsDetail</value>
+			</list>
+		</property>
+	</bean>
+</beans>

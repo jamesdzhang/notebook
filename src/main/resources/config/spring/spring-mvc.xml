@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:aop="http://www.springframework.org/schema/aop"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <annotation-driven>
+        <message-converters>
+            <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></beans:bean>
+            <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"></beans:bean>
+            <beans:bean class="org.springframework.http.converter.StringHttpMessageConverter"></beans:bean>
+            <beans:bean class="org.springframework.http.converter.ResourceHttpMessageConverter"></beans:bean>
+            <beans:bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"></beans:bean>
+        </message-converters>
+
+        <argument-resolvers>
+            <beans:bean class="com.nb.james.spring.mvc.support.resolver.JsonMapperArgumentResolver" />
+        </argument-resolvers>
+
+        <return-value-handlers>
+            <beans:bean  class="com.nb.james.spring.mvc.support.ResponseJsonMethodProcessor">
+                <beans:property name="messageConverter" ref="jsonMessageConverter"/>
+                <beans:property name="beanWrappers">
+                    <beans:list>
+                        <beans:bean class="com.nb.james.spring.mvc.support.wrapper.DefaultBeanWrapper" />
+                    </beans:list>
+                </beans:property>
+                <beans:property name="beanTranslateProcessor">
+                    <beans:bean class="com.nb.james.spring.mvc.support.bean.translate.BeanTranslateProcessor" />
+                </beans:property>
+            </beans:bean>
+        </return-value-handlers>
+    </annotation-driven>
+
+    <beans:bean id="jsonMessageConverter" class="com.nb.james.spring.mvc.support.EncodingJsonHttpMessageConverter"/>
+
+    <beans:bean class="com.nb.james.spring.mvc.support.request.RequestMappingHandlerPostProcessor">
+        <beans:property name="removedArgumentResolvers">
+            <beans:list>
+                <beans:value>org.springframework.web.method.annotation.MapMethodProcessor</beans:value>
+            </beans:list>
+        </beans:property>
+        <beans:property name="removedReturnValueHandlers">
+            <beans:list>
+                <beans:value>org.springframework.web.servlet.mvc.method.annotation.ViewNameMethodReturnValueHandler</beans:value>
+                <beans:value>org.springframework.web.method.annotation.MapMethodProcessor</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+
+</beans:beans>

@@ -9,7 +9,7 @@ import java.util.Stack;
 public class TreeIterator {
 
     private TreeNode root;
-    private static String DEFAULT_TREE_JSON = "{\"value\":1,\"left\":{\"value\":22,\"left\":null,\"right\":{\"value\":26,\"left\":null,\"right\":null}},\"right\":{\"value\":33,\"left\":null,\"right\":null}}";
+    private static String DEFAULT_TREE_JSON = "{\"value\":1,\"addTime\":\"2017-02-01\",\"left\":{\"value\":22,\"left\":null,\"right\":{\"value\":26,\"left\":null,\"right\":null}},\"right\":{\"value\":33,\"left\":null,\"right\":null}}";
 
     private TreeNode initTree(String... param){
         if(param.length>0)
