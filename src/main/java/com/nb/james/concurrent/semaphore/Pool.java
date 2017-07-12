@@ -6,7 +6,7 @@ import java.util.concurrent.Semaphore;
  *
  *
  */
-class Pool {
+public class Pool {
    private static final int MAX_AVAILABLE = 100;
    private final Semaphore available = new Semaphore(MAX_AVAILABLE, true);
 

@@ -10,10 +10,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.Attribute;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.AttributeKey;
 
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by zhangyaping on 2017/3/15.
@@ -37,6 +37,8 @@ public class NettyServer implements Runnable{
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new DiscardServerHandler());
+                            ch.pipeline().addLast(new StringDecoder());
+                            ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
@@ -60,7 +62,7 @@ public class NettyServer implements Runnable{
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         } else {
-            port = 8080;
+            port = 9999;
         }
         new NettyServer(port).run();
     }

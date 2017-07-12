@@ -4,10 +4,6 @@ import com.nb.james.springboot.configuration.ConfigurationDemo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.http.HttpRequest;
-
-import java.util.Arrays;
 
 /**
  * Created by zhangyaping on 2017/3/14.
