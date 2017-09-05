@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nb.james.mybatis.vo.CdsOrderVo" >
+
+    <resultMap id="BaseResultMap" type="com.nb.james.mybatis.vo.CdsOrderVo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!--<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="sub_order_id" property="subOrderId" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR"  />
+        <result column="request_source" property="reqSource"  jdbcType="VARCHAR"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />-->
+    </resultMap>
+
+    <!--<select id="selectByParam"  parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *
+        from cds_order
+        WHERE 1=1
+        <if test ="orderId != null">
+           AND order_id = #{orderId,jdbcType=VARCHAR}
+        </if>
+        <if test ="subOrderId != null">
+            AND sub_order_id = #{subOrderId,jdbcType=VARCHAR}
+        </if>
+        <if test ="reqSource != null">
+            AND request_source = #{request_source,jdbcType=VARCHAR}
+        </if>
+        <if test ="status != null">
+            AND status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test ="startDate != null">
+            AND add_time >= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test ="endDate != null">
+            AND add_time &lt; #{endDate,jdbcType=VARCHAR}
+        </if>
+    </select>-->
+
+
+
+    <select id="selectByOrderId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT id
+        from policy_bind_his
+        WHERE 1=1
+    </select>
+<!--
+    <select id="selectBySubOrderId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT *
+        from cds_order
+        WHERE 1=1
+        AND sub_order_id = #{subOrderId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertRecord" parameterType="com.nb.james.mybatis.vo.CdsRequestVo" >
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO cds_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            order_id,
+            sub_order_id,
+            request_source,
+            status
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{orderId,jdbcType=INTEGER},
+            #{subOrderId,jdbcType=INTEGER},
+            #{reqSource,jdbcType=VARCHAR},
+            #{status,jdbcType=VARCHAR}
+        </trim>
+    </insert>
+
+
+    <update id="updateStatus" parameterType="com.nb.james.mybatis.vo.CdsOrderVo" >
+        UPDATE cds_order
+        SET
+          status = #{status,jdbcType=VARCHAR}
+        WHERE 1=1
+            AND order_id = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteByArchiveTime" parameterType="com.nb.james.mybatis.vo.CdsOrderVo" >
+        delete from cds_order
+        where add_time &lt; #{archiveTime}
+    </delete>-->
+
+
+</mapper>

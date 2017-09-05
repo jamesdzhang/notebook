@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+    http://www.springframework.org/schema/jms http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
+	<!--<jee:jndi-lookup id="datasource_cds_master" jndi-name="${datasource.cds.master.jndiName}"
+					 proxy-interface="javax.sql.DataSource" lookup-on-startup="false" />
+	<jee:jndi-lookup id="datasource_cds_slave" jndi-name="${datasource.cds.slave.jndiName}"
+					 proxy-interface="javax.sql.DataSource" lookup-on-startup="false" />-->
+
+	<!--<bean name="datasource_cds_master" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass"  value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://${mysql.db.master.host}/cds?zeroDateTimeBehavior=convertToNull" />
+		<property name="user" value="${mysql.db.master.username}" />
+		<property name="password" value="${mysql.db.master.password}" />
+		<property name="maxPoolSize" value="20"/>
+		<property name="maxIdleTime" value="1800"/>
+		<property name="maxAdministrativeTaskTime" value="1800"/>
+	</bean>
+-->
+	<bean name="datasource_cds_master" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass"  value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://rds6fbqrf6fbqrf.mysql.rds.aliyuncs.com/castle_bastion_00?zeroDateTimeBehavior=convertToNull" />
+		<property name="user" value="za_dev_casbas" />
+		<property name="password" value="za_dev_casbas_3a826b" />
+		<property name="maxPoolSize" value="20"/>
+		<property name="maxIdleTime" value="1800"/>
+		<property name="maxAdministrativeTaskTime" value="1800"/>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+						  mode="proxy" />
+	<!-- 事务控制管理 -->
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="datasource_cds_master" />
+	</bean>
+	<bean id="sqlSessionFactory_Master" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasource_cds_master" />
+		<property name="configLocation" value="classpath:config/spring/spring-mybatis.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:config/mybatis/mapper/*.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sqlSessionTemplateMaster" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory_Master" />
+	</bean>
+
+	<!--
+	<bean id="sqlSessionFactory_Slave" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasource_cds_slave" />
+		<property name="configLocation" value="classpath:config/spring/spring-mybatis.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:mybatis/mongo/*.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sqlSessionTemplateSlave" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory_Slave" />
+	</bean>-->
+
+</beans>

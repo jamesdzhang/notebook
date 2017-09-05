@@ -2,6 +2,8 @@ package com.nb.james.springboot.configuration;
 
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 //@EnableWebMvc
 @ComponentScan(value = "com.nb.james.*")
 @ImportResource({"application-start.xml"})
+@EnableHystrix
+@EnableHystrixDashboard
 public class ConfigurationDemo {
 
     /**
