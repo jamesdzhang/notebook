@@ -1,6 +1,9 @@
 package com.nb.james.algorithm.tree;
 
 
+import com.google.common.base.Joiner;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -9,7 +12,7 @@ import java.util.Stack;
 public class TreeIterator {
 
     private TreeNode root;
-    private static String DEFAULT_TREE_JSON = "{\"value\":1,\"addTime\":\"2017-02-01\",\"left\":{\"value\":22,\"left\":null,\"right\":{\"value\":26,\"left\":null,\"right\":null}},\"right\":{\"value\":33,\"left\":null,\"right\":null}}";
+    private static String DEFAULT_TREE_JSON = "{\"value\":11,\"addTime\":\"2017-02-01\",\"left\":{\"value\":22,\"left\":null,\"right\":{\"value\":26,\"left\":null,\"right\":null}},\"right\":{\"value\":33,\"left\":null,\"right\":{\"value\":44,\"left\":null,\"right\":{\"value\":55,\"left\":{\"value\":66,\"left\":null,\"right\":null},\"right\":null}}}}";
 
     private TreeNode initTree(String... param){
         if(param.length>0)
@@ -37,25 +40,24 @@ public class TreeIterator {
      * @param root
      */
     public static void traverseForValue(TreeNode root){
-        Integer rootValue = root.getValue();
         TreeNode curNode = root;
         Stack<TreeNode> vStack = new Stack<TreeNode>();
         vStack.push(curNode);
+        Set<String> result = new HashSet<>();
         while(vStack.size()>0 && curNode != null){
             while(curNode.getLeft() != null){
                 vStack.push(curNode.getLeft());
-//                System.out.println("[Pre Traverse] - Current node :"+curNode.getLeft().getValue());
                 curNode = curNode.getLeft();
             }
             curNode = vStack.pop();
-            System.out.println("[After Traverse] - Current node :"+curNode.getValue());
+            result.add(String.valueOf(curNode.getValue()));
 
             while(curNode.getRight() != null){
                 vStack.push(curNode.getRight());
-//                System.out.println("[Pre Traverse] - Current node :"+curNode.getRight().getValue());
                 curNode = curNode.getRight();
             }
         }
+        System.out.format("result:%s", Joiner.on(",").join(result));
     }
 
 }

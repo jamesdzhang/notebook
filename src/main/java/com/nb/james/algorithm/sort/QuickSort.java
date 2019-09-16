@@ -1,6 +1,11 @@
 package com.nb.james.algorithm.sort;
 
-import java.util.*;
+import com.google.common.base.Joiner;
+import com.google.common.base.Stopwatch;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import static java.util.concurrent.TimeUnit.MICROSECONDS;
 
 /**
  * Created by zhangyaping on 2017/3/17.
@@ -13,40 +18,6 @@ public class QuickSort {
      *  2.按照这个index值把list分为两部分，小于index的都存到index的左边，大于的都存到右边
      *  3.分别递归左边的以及右边的子集合
      *  4.返回最后的集合
-     * @param queue
-     */
-    public static List<Integer> quickSort(List<Integer> queue){
-        int rootIndex = new Random().nextInt(queue.size()-1);
-
-        return partition(queue,rootIndex);
-
-    }
-
-    public static List<Integer> partition(List<Integer> aList, int index){
-        List<Integer> left = new ArrayList<>(aList.size());
-        List<Integer> right = new ArrayList<>(aList.size());
-        int indexValue = aList.get(index);
-        for(int i = 0; i< aList.size(); i++){
-            if(aList.get(i)>indexValue)
-                right.add(aList.get(i));
-            else if(aList.get(i)<=indexValue && i!=index)
-                left.add(aList.get(i));
-        }
-        if(left.size()>1)
-            left = partition(left,new Random().nextInt(left.size()-1));
-        if(right.size()>1)
-            right = partition(right,new Random().nextInt(right.size()-1));
-
-        left.add(left.size(),indexValue);
-        left.addAll(right);
-
-        return left;
-    }
-
-
-    /**
-     * 数组实现
-     * @param unsorted
      */
     public static void quick_sort(Integer[] unsorted, int low, int high){
         int loc = 0;
@@ -60,30 +31,81 @@ public class QuickSort {
 
     public static Integer partition(Integer[] unsorted, int low, int high){
         int pivot = unsorted[low];
-        while (low < high)
-        {
-            while (low < high && unsorted[high] > pivot) high--;
+        while (low < high) {
+            while (low < high && unsorted[high] > pivot)
+                high--;
             unsorted[low] = unsorted[high];
-            while (low < high && unsorted[low] <= pivot) low++;
+            while (low < high && unsorted[low] <= pivot)
+                low++;
             unsorted[high] = unsorted[low];
         }
         unsorted[low] = pivot;
+        System.out.println(String.format("loc:%d",low));
         return low;
     }
 
-    public static void main(String args[]){
-        long startTime;
-        Integer[] a = {1,111,31,2,32,45,30,11,22,23,223,22,11,7,5};
-        Integer[] aa = {1,111,31,2,32,45,30,11,22,23,223,22,11,7,5};
-        List<Integer> list = Arrays.asList(a);
-        startTime = System.currentTimeMillis();
-        System.out.println(Arrays.toString(QuickSort.quickSort(list).toArray()));
-        System.out.println(System.currentTimeMillis()-startTime);
 
-        startTime = System.currentTimeMillis();
-        quick_sort(aa,0,aa.length-1);
-        System.out.println(Arrays.toString(Arrays.asList(aa).toArray()));
-        System.out.println(System.currentTimeMillis()-startTime);
+    /**
+     * 数组实现
+     * @param unsorted
+     */
+    public static void quick_sort_queue(Integer[] unsorted){
+        int loc = 0;
+        Queue<Pos> queue = new LinkedBlockingQueue<>();
+        queue.add(new Pos(0,unsorted.length-1));
+        Pos tmp;
+        while ((tmp = queue.poll()) != null) {
+            int low = tmp.low;
+            int high = tmp.high;
+            int low_ = low;
+            int high_ = high;
+            int pivot = unsorted[low];
+            while (low < high) {
+                while (low < high && unsorted[high] > pivot)
+                    high--;
+                unsorted[low] = unsorted[high];
+                while (low < high && unsorted[low] <= pivot)
+                    low++;
+                unsorted[high] = unsorted[low];
+            }
+            unsorted[low] = pivot;
+            loc = low;
+            if (low_ < loc - 1)
+                queue.add(new Pos(low_, loc - 1));
+            if (loc + 1 < high_)
+                queue.add(new Pos(loc + 1, high_));
+        }
     }
 
+    public static void main(String args[]){
+        Stopwatch sWatch;
+        Integer[] array = {1,111,88,10,31,17,101,31,2,32,45,30,11,22,23,223,22,11,7,5};
+        Integer array_2[] = array;
+        Integer array_3[] = array;
+        System.out.println(String.format("Pending sorting : %s", Joiner.on(",").join(array)));
+
+        sWatch = Stopwatch.createStarted();
+
+        sWatch = sWatch.reset().start();
+        quick_sort(array_2, 0, array.length - 1);
+        System.out.println(String.format("After Sort: %s", Joiner.on(",").join(array_2)));
+        System.out.println(String.format("Time consumed : %d MICROSECONDS of %s", sWatch.stop().elapsed(MICROSECONDS), "vector"));
+
+
+        sWatch = sWatch.reset().start();
+        quick_sort_queue(array_3);
+        System.out.println(String.format("After Sort: %s", Joiner.on(",").join(array_3)));
+        System.out.println(String.format("Time consumed : %d MICROSECONDS of %s", sWatch.stop().elapsed(MICROSECONDS), "queue"));
+    }
+
+}
+
+class Pos {
+    public int low;
+    public int high;
+
+    Pos(int low, int high) {
+        this.low = low;
+        this.high = high;
+    }
 }
