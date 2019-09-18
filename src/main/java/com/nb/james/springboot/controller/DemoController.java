@@ -95,11 +95,11 @@ public class DemoController {
         HostConfiguration hostConfiguration = new HostConfiguration();
         hostConfiguration.setHost("10.253.17.155",9086);
 //        hostConfiguration.setHost("10.253.17.155:9086/"
-//                + "com.zhongan.castle.support.service.VehiclePolicySearchService:1.0.0/"
+//                + "com.xxx.castle.support.service.VehiclePolicySearchService:1.0.0/"
 //                + "queryPolicyByConditions",9086);
 
         HttpClientParams params = new HttpClientParams();
-        params.setParameter("ArgsTypes","[\"com.zhongan.castle.support.dto.search.VehiclePolicySearchReqDTO\"]"  );
+        params.setParameter("ArgsTypes","[\"com.xxx.castle.support.dto.search.VehiclePolicySearchReqDTO\"]"  );
         params.setParameter("ArgsObjects","[{\"accountId\":\"3070013\"}]"  );
 
         HttpClient httpClient = new HttpClient();
@@ -107,11 +107,11 @@ public class DemoController {
 //        httpClient.setParams(params);
 
         PostMethod postMethod = new PostMethod("http://10.253.17.155:9086/"
-                                + "com.zhongan.castle.support.service.VehiclePolicySearchService:1.0.0/"
+                                + "com.xxx.castle.support.service.VehiclePolicySearchService:1.0.0/"
                                 + "queryPolicyByConditions");
         postMethod.setParams(params);
         NameValuePair[] valuePairs = {new NameValuePair("ArgsTypes",
-                "[\"com.zhongan.castle.support.dto.search.VehiclePolicySearchReqDTO\"]"),
+                "[\"com.xxx.castle.support.dto.search.VehiclePolicySearchReqDTO\"]"),
                 new NameValuePair("ArgsObjects",
                         "[{\"accountId\":\"3070013\"}]")};
         postMethod.setRequestBody(valuePairs);
